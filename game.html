@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>XeBlaster</title>
+    <meta name="viewport" contend="width=devie-width, initial-scale=1.0">
+    <script src="game/req/jquery.min.js"></script>
+    <script src="game/req/three.min.js"></script>
+    <script src="game/req/threex.fullscreen.js"></script>
+    <script src="game/req/threex.laserbeam.js"></script>
+    <script src="game/req/howler.min.js"></script>
+    
+    <script src="game/js/game_base.js"></script>
+    <script src="game/js/game_nonplayer.js"></script>    
+    <script src="game/js/game_player.js"></script>
+    <script src="game/js/bullet_bank.js"></script>
+    
+  </head>
+  <body>
+    <div class="container" style="width:800px;height:600px;z-index:-1;"
+	 id="game_div"></div>
+
+    <div id="menu" style="text-align:center;z-index:10;position:relative;">
+      <div id="yourdiv"
+	   style="display: inline-block;margin-top:-200px;background-color:white;padding:10px;">
+	<h4 id="last_score"></h4>
+	<h2>XeBlaster</h2>
+	<h4>Battle the forces of evil to secure the galaxy's supply of xenon!</h4>
+	<p>Move: wasd, Fire: enter, Camera: j</p>
+	<p>Hold enter: charge shot</p>
+	<p>
+	  <strong>High Scores</strong>
+	  <ul id="hslist" style="list-style-type:none">
+	  </ul>
+	</p>
+	<button class="btn btn-info" onclick="StartGame()">Start!</button>
+      </div>
+    </div>
+    <div style="position:fixed;bottom:0;left:30;">
+      <h2 style="color:white">Score: <span id="score">0</span></h2>
+    </div>
+    <div style="position:fixed;bottom:30px;right:0;padding-right:50px">
+      <h2 style="color:white">Missles: <span id="missles">0</span></h2>
+    </div>
+    <div style="position:fixed;bottom:0;right:0;padding-right:50px;">
+      <h2 style="color:white">Enemies missed: <span id="impurities">0</span></h2>
+    </div>
+    <script>
+      var Game = null;
+    function UpdateHighScores(){
+    };
+      function StartGame(){
+      Game.Start();
+      };
+    $(document).ready(function(){
+
+      Game = new XeBlaster("game_div", "menu");
+
+    });
+
+    </script>
+  </body>
+</html>
+
