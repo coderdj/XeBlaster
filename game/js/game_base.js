@@ -27,6 +27,8 @@ class XeBlaster{
 	this.camera = new THREE.PerspectiveCamera(90,
 						  this.windowWidth/this.windowHeight,
 						  0.1, 10000);
+	this.effects = null;
+	
 	this.scene = new THREE.Scene();
 	this.scene.add(this.camera);
 	this.camera.position.z = 500;
@@ -71,7 +73,9 @@ class XeBlaster{
 	});
 	
     }
-
+    GetPlayerPosition(){
+	return this.player.obj().position;
+    }
     LoadBackground(path){
 	if(this.backgroundMesh != null)
 	    this.backgroundScene.remove(this.backgroundMesh);
@@ -92,7 +96,9 @@ class XeBlaster{
     ResetScore(){
 	this.score = 0;
     }
-
+    AddPoints(points){
+	this.score += points;
+    }
     ResetContainers(){
 
 	for(var x=0;x<this.bullets.length;x+=1){
@@ -146,9 +152,10 @@ class XeBlaster{
 	
 	// Might want to change numbers based on
 	// system settings
-	var n_asteroids = 30;
-	var n_sprites = 100;
+	var n_asteroids = 15;
+	var n_sprites = 50;
 	var n_dust = 50;
+	var n_enemies = 50;
 	
 	// Load Asteroids
 	var apaths = [ "game/img/asteroid_0.jpg",
@@ -178,11 +185,19 @@ class XeBlaster{
 	    this.fallingObjects.push(mesh);
 	    this.scene.add(mesh.obj());
 	}
+	for(var x=0; x<n_enemies; x+=1){
+	    var enemy = new basic_enemy(this.top_bound, this.bottom_bound,
+					this.left_bound, this.right_bound,
+					5, this.effects, this.BulletBank,
+					this.scene, this, 0.5, 100, 5);
+	    this.enemies.push(enemy);
+	}
+		
     }    
 
     Animate(){
 	if(!this.animate) return;
-
+	
 	var  clock_delta = this.clock.getDelta();
 	var clock_corr = this.clock_corr * clock_delta;
 
@@ -190,7 +205,9 @@ class XeBlaster{
 	this.BulletBank.animate(clock_corr);
 	for(var x=0; x<this.fallingObjects.length; x+=1)
 	    this.fallingObjects[x].animate(clock_corr);
-
+	for(var x=0; x<this.enemies.length; x+=1)
+	    this.enemies[x].animate(clock_corr);
+	
 	var object = this;
 	setTimeout( function() {
 	    requestAnimationFrame( function(){ object.Animate();} );
